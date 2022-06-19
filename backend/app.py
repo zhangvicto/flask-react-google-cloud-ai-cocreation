@@ -23,13 +23,9 @@ def model_result():
 
 @app.route('/test', methods=['GET'])
 def test(): 
-    testArray = []
-
     try: 
         testData = test_data()
-        for key, value in testData.items():
-            testArray.append(value)
-        return jsonify({'test':testArray})
+        return testData, 200
     except: 
         return jsonify({'error':'error'})
 

@@ -101,7 +101,7 @@ def test_data():
 
         i = 0 
         for row in result:
-            resultArray[i] = (f"age: {row.age}  tech_lvl: {row.tech_lvl}")
+            resultArray[i] = (row['age'],row['tech_lvl'])
             #print(resultArray[i])
 
         return resultArray

@@ -1,46 +1,55 @@
-import React from 'react'
+import React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Disclaimer from './components/disclaimer'
+import Box from "@mui/material/Box"
+import './styles/myapp.css'
+import { Typography } from '@mui/material';
+import Footer from "./components/footer"
 
-class Myapp extends React.Component {    
-    constructor (props) {
-        super(props);
-        this.state = { selectedSection: 0 };
-    }
-    
+class Myapp extends React.Component {
+
     render() {
         return (
-            <Buttons />
+            <React.Fragment>
+                <CssBaseline />
+                <Container  >
+                    <Box className="app-page">
+                        <Typography variant="h2" gutterBottom>AI Co-creation Study</Typography>
+                        <Typography gutterBottom>Click Start to begin</Typography>
+                        <Disclaimer />
+                        
+                    </Box>
+                </Container>
+                <Footer />
+            </React.Fragment>
         )
     }
 }
 
-function Buttons(props) {
-    return (
-        <div>
-            <button onClick={this.getCall()}>Test</button>
-            <button onClick={console.log("hi")}>Log</button> 
-        </div>
-    )
-    
-}
+// function TestButton() {
+//     return (
+//         <div>
+//             <button onClick={getCall}>Test</button>
+//         </div>
+//     )
+
+// }
 
 function getCall() {
-    const reqOptions = {
+    fetch('http://localhost:8080/api/test', {
         method: 'GET',
         mode: 'cors',
-    };
-    fetch('http:localhost:8080/api/test', reqOptions)
+    })
         .then(response => {
             if (response.status === 200) {
-                (response.json()).then((data) => {
-                    console.log(data)
-                })
+                response.json()
+                    .then(data => console.log(data))
             } else {
-                (response.json()).then((data) => {
-                    return null
-                })
+                return null
             }
         }).catch((error) => {
-            console.log("Error in fetching calculations history.", error)
+            console.log("Fetch error:", error)
         })
 }
 
