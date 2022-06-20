@@ -11,42 +11,37 @@ import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-  }));
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
 
-  export interface DialogTitleProps {
-    id: string;
-    onClose: () => void;
-  }
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
 
-  const BootstrapDialogTitle = (props: DialogTitleProps) => {
-    const { onClose, ...other } = props;
-  
-    return (
-      <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-        {onClose ? (
-          <IconButton
-            aria-label="close"
-            onClick={onClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null
-        }
-      </DialogTitle>
-    );
-  };
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+}
 
 export default function Disclaimer() {
     const [open, setOpen] = React.useState(false);
@@ -69,17 +64,19 @@ export default function Disclaimer() {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-            Disclaimer
+        
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}> 
+        Disclaimer
         </BootstrapDialogTitle>
+        
+        
         <DialogContent dividers>
         <Typography gutterBottom>
             Last updated: June 19, 2022
         </Typography>
         
         <Typography gutterBottom>
-            Interpretation and Definitions <br></br>
-            <hr></hr>
+            Interpretation and Definitions
         </Typography>
             Interpretation
             --------------
@@ -208,7 +205,7 @@ export default function Disclaimer() {
 
         </DialogContent>
         <DialogActions>
-            <div style={{marginRight:"20px"}}>I have read the disclaimer</div>
+            <p style={{marginRight:"20px"}}>I have read the disclaimer</p>
           <Link to="/form" style={{textDecoration:"none"}}><Button variant="contained" color="success" hover autoFocus onClick={handleClose}>
             Agree & continue
           </Button></Link>
