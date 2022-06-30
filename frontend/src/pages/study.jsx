@@ -8,8 +8,9 @@ import '../styles/myapp.css';
 import Footer from "../components/footer";
 import TutorialNoAI from "../components/tutorial-no-ai"; //change here to ai or no ai
 import TutorialAI from "../components/tutorial-ai"; //change here to ai or no ai
+import OutfitDisplay from '../components/outfit-display';
+import OutfitSlot from '../components/outfit-slot';
 import Inventory from "../components/inventory";
-import OutfitSlot from '../components/outfit-slot'
 
 export default function Study() {
 
@@ -22,6 +23,7 @@ export default function Study() {
             <Box className="app-page">
                 <TutorialNoAI />
                 <TutorialAI />
+                <OutfitDisplay />
                 <OutfitSlot />
                 <Inventory />
             </Box>

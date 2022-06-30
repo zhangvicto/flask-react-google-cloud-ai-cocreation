@@ -13,18 +13,20 @@ export default function outfitSelection() {
                 height: 128,
             },
         }}>
-            <Paper sx={{outlineStyle:'dotted',outlineColor:'gray',height:'64px',}}>
-                <Box sx={{fontSize:'12px'}}>Selected Item</Box>
+            <Paper sx={{outlineStyle:'solid',outlineColor:'lightgray',height:'64px',}}>
+                <Box sx={{fontSize:'12px'}}>Top</Box>
                 <Divider />
                 <img style={{width:'auto', height:'75%'}} src="https://storage.googleapis.com/ai-co-creation-images/373947/1.jpg"></img>
             </Paper>
-            <Paper sx={{outlineStyle:'dotted',outlineColor:'gray',height:'64px',}}>
-                <Box sx={{fontSize:'12px'}}>Selected Item</Box>
+
+            <Paper sx={{outlineStyle:'solid',outlineColor:'lightgray',height:'64px',}}>
+                <Box sx={{fontSize:'12px'}}>Bottom/Dress</Box>
                 <Divider />
                 <img style={{width:'auto', height:'75%'}} src="https://storage.googleapis.com/ai-co-creation-images/373947/1.jpg"></img>
             </Paper>
-            <Paper sx={{outlineStyle:'dotted',outlineColor:'gray',height:'64px',}}>
-                <Box sx={{fontSize:'12px'}}>Selected Item</Box>
+
+            <Paper sx={{outlineStyle:'solid',outlineColor:'lightgray',height:'64px',}}>
+                <Box sx={{fontSize:'12px'}}>Shoes</Box>
                 <Divider />
                 <img style={{width:'auto', height:'75%'}} src="https://storage.googleapis.com/ai-co-creation-images/373947/1.jpg"></img>
             </Paper>
