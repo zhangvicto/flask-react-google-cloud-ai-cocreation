@@ -14,8 +14,20 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
 import Slider from '@mui/material/Slider';
+import { ReactSession } from 'react-client-session';
 
 export default function Form() {
+    //session stuff
+
+    //fetch number of users using backend
+
+
+    //if this session is a new user
+    //let newUser = "user" + numberOfUsers.toString;
+
+    //ReactSession.setStoreType("cookie");
+    //ReactSession.set("username", newUser);
+
 
     //form stuff
     const [selectedOptions, setSelectedOptions] = useState([]);

@@ -10,6 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
+import Fab from '@mui/material/Fab';
+import ArticleIcon from '@mui/icons-material/Article';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -60,10 +62,11 @@ export default function Tutorial() {
     };
 
     return (
-        <Box sx={{position:'fixed', right:'0', top:'0'}}>
-             <Button variant="outlined" onClick={handleClickOpen} sx={{position:'fixed', right:'0', top:'0'}}>
+        <Box>
+             <Fab variant="extended" color="primary" onClick={handleClickOpen} sx={{position:'absolute', right:'0', bottom:'0'}}>
+             <ArticleIcon sx={{ mr: 1 }} />
                 Tutorial
-            </Button>
+            </Fab>
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"

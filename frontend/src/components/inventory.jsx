@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import ButtonUnstyled from '@mui/base/ButtonUnstyled';
-import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -15,7 +14,7 @@ export default function Inventory() {
 
     return (
         <div>
-            <ButtonUnstyled onClick={handleOpen}><AddCircleIcon /></ButtonUnstyled>
+            <IconButton color='primary' onClick={handleOpen}><AddCircleIcon /></IconButton>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -29,20 +28,33 @@ export default function Inventory() {
                         m: 1,
                         width: 64,
                         height: 64,
+                        boxShadow:'none',
                     },
                 }}>
-                    <Paper sx={{padding:'5px', display: 'flex', alignItems: 'center', justifyContent: 'center'}} variant="outlined" onClick={handleClose}><img style={{height:'100%', margin:'0 auto'}} src="https://storage.googleapis.com/ai-co-creation-images/373947/1.jpg"></img></Paper>
-                    <Paper elevation={1}></Paper>
-                    <Paper elevation={1}></Paper>
-                    <Paper elevation={1}></Paper>
-                    <Paper elevation={1}></Paper>
-                    <Paper elevation={1}></Paper>
-                    <Paper elevation={1}></Paper>
-                    <Paper elevation={1}></Paper>
-                    <Paper elevation={1}></Paper>
+                        Top
+                        <Paper sx={{ padding: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow:'none' }} variant="outlined" onClick={handleClose}><img style={{ height: 50}} src="https://storage.googleapis.com/ai-co-creation-images/373947/1.jpg"></img></Paper>
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        Bottom
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        Shoes
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+                        <Paper elevation={1}></Paper>
+
                 </Box>
             </Modal>
         </div>
     );
 
+}
+
+function selectItem() {
+    alert('item selected')
 }
