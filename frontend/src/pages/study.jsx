@@ -1,38 +1,48 @@
 import React from 'react'
-import { useState } from 'react';
+//import { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from "@mui/material/Box";
-import { Divider, Typography } from '@mui/material';
-import '../styles/myapp.css';
 import Footer from "../components/footer";
-import TutorialNoAI from "../components/tutorial-no-ai"; //change here to ai or no ai
-import TutorialAI from "../components/tutorial-ai"; //change here to ai or no ai
 import OutfitDisplay from '../components/outfit-display';
 import OutfitSlot from '../components/outfit-slot';
-import Inventory from "../components/inventory";
-import SubmitButton from '../components/next-button';
-import Countdown from 'react-countdown';
+import Inventory from "../components/inventory-new";
+import Timer from "../components/timer";
+import { ReactSession } from 'react-client-session';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react'
+
+const page = {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    textAlign: 'center',
+    width: 600,
+}
 
 export default function Study() {
 
-    const [AIState, setAIState] = useState([])
+    //const [outfit, setOutfit] = useState();
+
+    const location = useLocation();
+    //const username = ReactSession.get("username");
 
     return (
         <React.Fragment>
             <CssBaseline />
+            {console.log(location.state)}
+            {/* {"Username is = " + username} */}
+            <Timer />
+            {/* <TimeOut /> */}
             <Container >
-                <Box class="app-page">
-                    <Typography sx={{fontWeight:'700'}}>Click to choose an outfit!</Typography>
-                    <TutorialNoAI />
-                    {/* <TutorialAI /> */}
+                <Box sx={page}>
                     <OutfitDisplay />
-                    <Divider sx={{marginBottom:2}} />
                     <OutfitSlot />
                     <Inventory />
                 </Box>
             </Container>
-            <Footer />
+            {/* <Footer /> */}
         </React.Fragment>
     )
 }

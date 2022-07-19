@@ -1,173 +1,181 @@
 import * as React from 'react';
-import { Divider, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Box from '@mui/material/Box'
-import Paper from "@mui/material/Paper";
-import ButtonBase from "@mui/material/ButtonBase"
-import Button from "@mui/material/Button"
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { ReactSession } from 'react-client-session';
+import CheckMark from './checkbox.jsx'
 
-export default function OutfitDisplay() {
-    //STYLES
-    const containerStyle = {
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        '& > :not(style)': {
-            m: 1,
-            width: 130,
-            height: 130,
+//STYLES
+const slotStyle = {
+    m: 0.5,
+    width: 140,
+    height: 140,
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: 'none',
+    borderRadius: 5,
+}
+
+const backgroundStyle = {
+    display: 'flex',
+    verticalAlign: 'center',
+    justifyContent: 'center',
+    // '&:hover': {
+    //     backgroundColor: 'rgba(0,0,0,0.2)',
+    // },
+    borderRadius: 6,
+    marginLeft: 3,
+    marginRight: 3,
+    marginBottom: 1,
+}
+
+const textStyle = {
+    display: 'flex',
+    verticalAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    '&:hover': {
+        cursor: 'pointer',
+        transitionDuration: '200ms',
+        transform: 'scale(1.05)'
+    },
+}
+
+
+const containerStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10
+}
+
+const checkMark = {
+    borderRadius: 3,
+}
+
+
+const clothItem = {
+    display: 'flex',
+}
+
+function DisplayItem(props) {
+
+    const [data, setData] = React.useState();
+
+    const [outfit, useOutfit] = React.useState(props.outfitNumber);
+
+    React.useEffect(() => {
+
+        fetch('http://localhost:8080/api/gallery', {
+            method: 'GET',
+            mode: 'cors'
         }
-    }
+        ).then(response => {
+            if (response.status === 200) {
+                (response.json()).then((jsonData) => {
+                    setData(jsonData);
+                })
+            } else {
+                (response.json()).then((jsonData) => {
+                    return null;
+                })
+            }
+        }).catch((error) => {
+            console.log("Error", error);
+        })
+    }, []);
 
-    const slotStyle = {
-        m: 1,
-        width: 120,
-        height: 120,
-        display: 'flex',
-        flexWrap: 'wrap',
-        padding: '10px',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: "none"
-    }
 
-    const textStyle ={
-        position: 'absolute',
-        display: 'none',
-        padding: 1,
-        backgroundColor: 'rgba(0,0,0,0.4)',
-        verticalAlign: 'center'
-    }
-
-    const boxOnHover = {
-        ":hover .hiddenText": {
-            display: "block"
-        }
+    function selectOutfit(outfitNumber) {
+        console.log(outfitNumber);
+        //useOutfit(outfitNumber);
+        console.log(outfit);
+        //find corresponding individual items and log them in the selectitem function
+        //log the selection to the cloud
     }
 
     return (
+        <div>
+            <Box sx={backgroundStyle}>
+                <Box sx={slotStyle}>
+                    <Box sx={clothItem}>
+                        <img src={data && processData(data, props.outfitNumber, "top")} style={{ height: 35 }} />
+                        <CheckMark sx={checkMark} />
+                    </Box>
+                    <Box sx={clothItem}>
+                        <img src={data && processData(data, props.outfitNumber, "bottom")} style={{ height: 35 }} />
+                        <CheckMark sx={checkMark} />
+                    </Box>
+                    <Box sx={clothItem}>
+                        <img src={data && processData(data, props.outfitNumber, "shoes")} style={{ height: 35 }} />
+                        <CheckMark sx={checkMark} />
+                    </Box>
+                </Box>
+            </Box>
+            <Box sx={textStyle} onClick={ () => selectOutfit(props.outfitNumber)}>
+                <LocalOfferIcon sx={{ mr: 0.5 }} />
+                <Typography variant="caption" sx={{ fontSize: '12px' }}>Choose this look</Typography>
+            </Box>
+        </div>
+    )
+}
+
+function processData(jsonData, outfitID, type) {
+    let outfit = "outfit" + outfitID.toString()
+    let link = jsonData[outfit][type]['link'];
+
+    return link;
+}
+
+function OutfitDisplay() {
+
+    return (
         <Box sx={containerStyle}>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-            <Button onClick={selectOutfit} sx={boxOnHover} >
-                <Paper sx={slotStyle}>
-                    <Box ><img src={randomTop()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomBottom()} style={{ height: 40 }} /></Box>
-                    <Box><img src={randomShoes()} style={{ height: 40 }} /></Box>
-                    <Box className="hiddenText" sx={textStyle}><Typography variant="caption" color="white">Choose this look</Typography></Box>
-                </Paper>
-            </Button>
-
-
+            <DisplayItem outfitNumber="1" />
+            <DisplayItem outfitNumber="2" />
+            <DisplayItem outfitNumber="3" />
+            <DisplayItem outfitNumber="4" />
+            <DisplayItem outfitNumber="5" />
+            <DisplayItem outfitNumber="6" />
+            <DisplayItem outfitNumber="7" />
+            <DisplayItem outfitNumber="8" />
+            <DisplayItem outfitNumber="9" />
         </Box>
     )
 }
 
-function randomTop() {
-    let outfitLink = "https://storage.googleapis.com/ai-co-creation-images/top/";
-    let numberOfImages = 3;
-    let randomNumber = Math.floor((Math.random() * numberOfImages) + 1);
-    let imageName = randomNumber.toString().concat(".jpg")
-    let link = outfitLink.concat(imageName);
-    return link;
-}
-
-function randomBottom() {
-    let outfitLink = "https://storage.googleapis.com/ai-co-creation-images/bottom/";
-    let numberOfImages = 10;
-    let randomNumber = Math.floor((Math.random() * numberOfImages) + 1);
-    let imageName = randomNumber.toString().concat(".jpg")
-    let link = outfitLink.concat(imageName);
-    return link;
-}
-
-function randomShoes() {
-    let outfitLink = "https://storage.googleapis.com/ai-co-creation-images/shoes/";
-    let numberOfImages = 7;
-    let randomNumber = Math.floor((Math.random() * numberOfImages) + 1);
-    let imageName = randomNumber.toString().concat(".jpg")
-    let link = outfitLink.concat(imageName);
-    return link;
-}
-
-function selectOutfit() {
-    alert('outfit selected')
-    //store outfit selection in cookie
-
-    let top;
-    let bottom;
-    let shoes;
-
-    let outfitSelected = 0;
-}
-
 function submitOutfit(selected) {
     //upload data for outfit selected 
-    let top;
-    let bottom;
-    let shoes;
 }
+
+
+export default OutfitDisplay;
+
+    // displayImage(outfitID, type) {
+
+    //     let outfit = "outfit" + outfitID.toString()
+
+    //     fetch('http://localhost:8080/api/gallery', {
+    //         method: 'GET',
+    //         mode: 'cors'
+    //     }
+    //     ).then(response => {
+    //         if (response.status === 200) {
+    //             (response.json()).then((data) => {
+    //                 // console.log(data[outfit][type]['link'])
+    //                 let link = data[outfit][type]['link'];
+    //                 return link;
+    //             })
+    //         } else {
+    //             (response.json()).then((data) => {
+    //                 return null;
+    //             })
+    //         }
+    //     }).catch((error) => {
+    //         console.log("Error", error);
+    //     })
+    // }

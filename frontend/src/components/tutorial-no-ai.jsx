@@ -51,6 +51,13 @@ BootstrapDialogTitle.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
+const buttonStyle = {
+    position:'absolute', 
+    right:100, 
+    bottom:100, 
+    boxShadow:'none'
+}
+
 export default function Tutorial() {
     const [open, setOpen] = React.useState(false);
 
@@ -63,7 +70,7 @@ export default function Tutorial() {
 
     return (
         <Box>
-             <Fab variant="extended" color="primary" onClick={handleClickOpen} sx={{position:'absolute', right:'0', bottom:'0'}}>
+             <Fab variant="extended" color="primary" onClick={handleClickOpen} sx={buttonStyle}>
              <ArticleIcon sx={{ mr: 1 }} />
                 Tutorial
             </Fab>

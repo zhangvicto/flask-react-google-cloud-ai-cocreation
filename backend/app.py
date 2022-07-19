@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from importlib_metadata import method_cache
 from backend.storage import insert_calculation, get_calculations
 from backend.sql_request_test import test_data
+from backend.dataset_parse.gcloud_image_selection import generate_link
 
 app = Flask(__name__)
 
@@ -28,6 +29,22 @@ def test():
         return testData, 200
     except: 
         return jsonify({'error':'error'})
+
+@app.route('/gallery', methods=['GET'])
+def gallery(): 
+    try: 
+        return generate_link('default_sets.json')
+    except: 
+        return jsonify({'error':'error'})
+
+
+@app.route('/inventory', methods=['GET'])
+def inventory(): 
+    try: 
+        return generate_link('inventory.json')
+    except: 
+        return jsonify({'error':'error'})
+        
 
 
 # @app.route('/data', methods=['GET'])

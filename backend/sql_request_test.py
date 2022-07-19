@@ -1,14 +1,3 @@
-# Organization of the data
-# Data collected
-# age (Age)
-# tech_lvl, (Proficiency with technology on a scale of 1 - 10) TBD
-# t_wo, (Time engaged with app before creating an outfit without AI in SECONDS)
-# t_w, (Time engaged with app before creating an outfit with AI in SECONDS)
-# n_wo, (Number of interactions creating an outfit without AI)
-# n_w, (Number of interactions creating an outfit with AI)
-# rank_wo, (Quality of outfit selection without AI 0 - 100) TBD
-# rank_w, (Quality of outfit selection without AI 0 - 100) TBD
-
 from configparser import ConfigParser
 from sqlalchemy import create_engine, exc, text, inspect
 import os
@@ -54,11 +43,11 @@ def create_data_table():
     insp = inspect(engine)
     conn = engine.connect()
     
-    print(insp.has_table("user_data"))
+    print(insp.has_table("condition_table"))
 
-    if (insp.has_table("user_data") != True):
+    if (insp.has_table("condition_table") != True):
         try: 
-            conn.execute(text("CREATE TABLE user_data (age int, tech_lvl int, t_wo int, t_w int, n_wo int, n_w int, rank_wo int, rank_w int)"))
+            conn.execute(text("CREATE TABLE condition_table (condition INT, url TEXT, session_id INT, time TIMESTAMP)"))
             return 'Table created'
 
         except exc.SQLAlchemyError as error:
@@ -67,6 +56,9 @@ def create_data_table():
         finally:
             conn.close()
             engine.dispose()
+    else: 
+        print('table already exists') 
+
 
 def insert_data(): 
 
@@ -77,9 +69,15 @@ def insert_data():
         conn = engine.connect()
     
         conn.execute(
-            text("INSERT INTO user_data (age, tech_lvl, t_wo, t_w, n_wo, n_w, rank_wo, rank_w) VALUES (:age, :tech_lvl, :t_wo, :t_w, :n_wo, :n_w, :rank_wo, :rank_w)"), 
-            [{"age": 22, "tech_lvl": 1, "t_wo": 300, "t_w": 100, "n_wo": 100, "n_w": 30, "rank_wo": 80, "rank_w": 85}]
+            text("INSERT INTO condition_table (condition, url, session_id, time) VALUES (:condition, :url, :session_id, :time)"), 
+            [{"condition": 1, "url": "https://google.com", "session_id": 1, "time": "1999-01-08 04:05:06"}]
         )
+
+        conn.execute(
+            text("INSERT INTO condition_table (condition, url, session_id, time) VALUES (:condition, :url, :session_id, :time)"), 
+            [{"condition": 2, "url": "https://google.com/2", "session_id": 2, "time": "2000-01-08 04:05:06"}]
+        )
+
         return "Insertion successful"
     
     except exc.SQLAlchemyError as err:
@@ -96,12 +94,12 @@ def test_data():
         engine = create_engine(URI, echo=False)
         conn = engine.connect()
 
-        result = conn.execute(text("SELECT age, tech_lvl FROM user_data"))
+        result = conn.execute(text("SELECT condition, url, session_id, time FROM condition_table"))
         resultArray = {}
 
         i = 0 
         for row in result:
-            resultArray[i] = (row['age'],row['tech_lvl'])
+            resultArray[i] = (row['condition'],row['url'], row['session_id'], row['time'])
             #print(resultArray[i])
 
         return resultArray
@@ -112,9 +110,6 @@ def test_data():
     finally:
         conn.close()
         engine.dispose()
-
-def data(): 
-    testArray = [1, 2, 3, 4, 5]
     
 #test
 #print(create_data_table())

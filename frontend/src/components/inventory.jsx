@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from '@mui/material/IconButton';
@@ -10,8 +10,7 @@ export default function Inventory() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-
+    
     return (
         <div>
             <IconButton color='primary' onClick={handleOpen}><AddCircleIcon /></IconButton>
