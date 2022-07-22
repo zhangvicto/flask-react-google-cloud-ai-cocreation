@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import { ReactSession } from 'react-client-session';
 
 function Item(props) {
@@ -38,28 +39,63 @@ function Item(props) {
     return (
         <div>
             <Box>
-                <img src={data && processData(data, props.outfitNumber, "top")} style={{ height: 35 }} />
+                <img src={data && processData(data, props.outfitNumber, props.itemType)} style={{ height: 35 }} />
             </Box>
         </div>
     )
 }
 
-export default function inventory() {
+export default function Inventory() {
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false)
+    };
+
+    let tops = [];
+    let bottoms = [];
+    let shoes = [];
+    for (let i = 1; i < 10; i++) {
+        tops.push(<Item outfitNumber={i} itemType="top" key={i} />);
+        bottoms.push(<Item outfitNumber={i} itemType="bottom" key={i} />);
+        shoes.push(<Item outfitNumber={i} itemType="shoes" key={i} />);
+    }
+
     return (
-        <Box> 
-            <Item outfitNumber="1" />
-            <Item outfitNumber="1" />
-            <Item outfitNumber="1" />
-            <Item outfitNumber="1" />
-            <Item outfitNumber="1" />
+        <Box sx={inventoryStyle}>
+            <Button onClick={handleClose}>x</Button>
+            <Box>
+                <Typography> Tops </Typography>
+                {tops}
+            </Box>
+            <Box>
+                <Typography> Bottoms </Typography>
+                {bottoms}
+            </Box>
+            <Box>
+                <Typography> Shoes </Typography>
+                {shoes}
+            </Box>
         </Box>
     )
 }
 
 function processData(jsonData, outfitID, type) {
     let outfit = "outfit" + outfitID.toString()
-    console.log(outfit)
     let link = jsonData[outfit][type]['link'];
 
     return link;
+}
+
+const inventoryStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center', 
+}
+
+const sectionStyle = {
+
 }

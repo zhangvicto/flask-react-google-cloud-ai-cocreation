@@ -81,7 +81,6 @@ const diyCircle = {
     fontWeight: 'bold',
     fontSize: "12px",
     color: 'rgba(0,0,0,0.4)',
-    position: 'absolute',
-    left: 40,
-    bottom: 20
+    marginTop: 3,
+    marginRight: 4
 }
