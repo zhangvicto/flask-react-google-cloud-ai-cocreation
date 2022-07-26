@@ -5,12 +5,11 @@ import Container from '@mui/material/Container';
 import Box from "@mui/material/Box";
 import Footer from "../components/footer";
 import OutfitDisplay from '../components/outfit-display';
-import OutfitSlot from '../components/outfit-slot';
-import Inventory from "../components/inventory-new";
+import { OutfitSelection, Inventory } from '../components/outfit-slot';
 import Timer from "../components/timer";
-import { ReactSession } from 'react-client-session';
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { ReactSession } from 'react-client-session';
 
 const page = {
     position: 'absolute',
@@ -27,6 +26,9 @@ export default function Study() {
 
     const location = useLocation();
     //const username = ReactSession.get("username");
+    
+    const OpenContext = React.createContext(false)
+
 
     return (
         <React.Fragment>
@@ -38,8 +40,8 @@ export default function Study() {
             <Container >
                 <Box sx={page}>
                     <OutfitDisplay />
-                    <OutfitSlot />
-                    <Inventory />
+                    <OutfitSelection onOpenChanged={trigger(count)}/>
+                    <Inventory receiverCreator={receiverCreator(count)}/>
                 </Box>
             </Container>
             {/* <Footer /> */}
