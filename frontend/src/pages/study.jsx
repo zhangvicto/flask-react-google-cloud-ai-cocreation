@@ -1,5 +1,4 @@
 import React from 'react'
-//import { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from "@mui/material/Box";
@@ -22,26 +21,36 @@ const page = {
 
 export default function Study() {
 
-    //const [outfit, setOutfit] = useState();
+    //store outfit selection
+    const [outfit, setOutfit] = useState();
 
+    //pass user info from previous page
     const location = useLocation();
-    //const username = ReactSession.get("username");
-    
-    const OpenContext = React.createContext(false)
 
+    //Access COOKIE for username
+    const username = ReactSession.get("username");
+
+    //Opens Tops Inventory
+    const [topsOpen, setTopsOpen] = React.useState(false);
+
+    //Opens Bottoms Inventory
+    const [bottomsOpen, setBottomsOpen] = React.useState(false);
+
+    //Opens Shoes Inventory
+    const [shoesOpen, setShoesOpen] = React.useState(false);
 
     return (
         <React.Fragment>
             <CssBaseline />
-            {console.log(location.state)}
+            {console.log(location.state) /* Username is passed from previous page */}
             {/* {"Username is = " + username} */}
             <Timer />
             {/* <TimeOut /> */}
             <Container >
                 <Box sx={page}>
-                    <OutfitDisplay />
-                    <OutfitSelection onOpenChanged={trigger(count)}/>
-                    <Inventory receiverCreator={receiverCreator(count)}/>
+                    <OutfitDisplay setOutfit={setOutfit} outfit={outfit} />
+                    <OutfitSelection tops={topsOpen} bottoms={bottomsOpen} shoes={shoesOpen} setTopsOpen={setTopsOpen} setBottomsOpen={setBottomsOpen} setShoesOpen={setShoesOpen} outfit={outfit} />
+                    <Inventory tops={topsOpen} bottoms={bottomsOpen} shoes={shoesOpen} setTopsOpen={setTopsOpen} setBottomsOpen={setBottomsOpen} setShoesOpen={setShoesOpen} setOutfit={setOutfit} outfit={outfit} />
                 </Box>
             </Container>
             {/* <Footer /> */}

@@ -13,18 +13,18 @@ class LinkInput extends React.Component {
         super();
         this.state = {
             username: "",
-            sessionUsername: "",
-            message: ""
         }
         this.newUser = this.newUser.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
         this.clear = this.clear.bind(this);
 
+        //React session storage type
         ReactSession.setStoreType("cookie");
     }
 
     newUser(event) {
         event.preventDefault();
+        //Store username 
         ReactSession.set("username", this.state.username);
 
         this.props.navigate('/study', { state: this.state.username });
@@ -67,6 +67,7 @@ class LinkInput extends React.Component {
                 </Box>
 
                 <Divider />
+                <Typography>Your link should be in the format of ________</Typography>
                 <Typography>Confirm that this is your link! A wrong link will result in you not earning a credit.</Typography>
             </Box>
 

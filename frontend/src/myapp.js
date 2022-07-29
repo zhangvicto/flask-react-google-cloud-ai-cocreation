@@ -8,7 +8,7 @@ import { Grid, Typography } from '@mui/material';
 import Footer from "./components/footer"
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-class Myapp extends React.Component {
+class MyApp extends React.Component {
 
     render() {
         return (
@@ -58,4 +58,4 @@ class Myapp extends React.Component {
 //         })
 // }
 
-export default Myapp;
+export default MyApp;

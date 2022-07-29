@@ -104,15 +104,15 @@ function DisplayItem(props) {
                 <Box sx={slotStyle}>
                     <Box sx={clothItem}>
                         <img src={data && processData(data, props.outfitNumber, "top")} style={{ height: 35 }} />
-                        <CheckMark sx={checkMark} />
+                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="top" />
                     </Box>
                     <Box sx={clothItem}>
                         <img src={data && processData(data, props.outfitNumber, "bottom")} style={{ height: 35 }} />
-                        <CheckMark sx={checkMark} />
+                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="bottom" />
                     </Box>
                     <Box sx={clothItem}>
                         <img src={data && processData(data, props.outfitNumber, "shoes")} style={{ height: 35 }} />
-                        <CheckMark sx={checkMark} />
+                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="shoes" />
                     </Box>
                 </Box>
             </Box>
@@ -131,19 +131,19 @@ function processData(jsonData, outfitID, type) {
     return link;
 }
 
-function OutfitDisplay() {
+function OutfitDisplay(props) {
 
     return (
         <Box sx={containerStyle}>
-            <DisplayItem outfitNumber="1" />
-            <DisplayItem outfitNumber="2" />
-            <DisplayItem outfitNumber="3" />
-            <DisplayItem outfitNumber="4" />
-            <DisplayItem outfitNumber="5" />
-            <DisplayItem outfitNumber="6" />
-            <DisplayItem outfitNumber="7" />
-            <DisplayItem outfitNumber="8" />
-            <DisplayItem outfitNumber="9" />
+            <DisplayItem outfitNumber="1" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="2" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="3" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="4" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="5" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="6" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="7" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="8" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="9" setOutfit={props.setOutfit} outfit={props.outfit}/>
         </Box>
     )
 }
