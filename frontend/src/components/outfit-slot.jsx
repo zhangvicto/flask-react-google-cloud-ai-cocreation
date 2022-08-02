@@ -14,26 +14,30 @@ export function OutfitSelection(props) {
             props.setTopsOpen(true);
             props.setBottomsOpen(false);
             props.setShoesOpen(false);
-        }
-        if (itemType == "bottoms") {
+        } else if (itemType == "bottoms") {
             props.setBottomsOpen(true);
             props.setTopsOpen(false);
             props.setShoesOpen(false);
-        }
-        if (itemType == "shoes") {
+        } else if (itemType == "shoes") {
             props.setShoesOpen(true);
             props.setTopsOpen(false);
             props.setBottomsOpen(false);
         }
     }
 
+    function selectOutfit() {
+        props.setToMonogram(true);
+    }
+
     return (
         <Box sx={slotsContainer}>
             <Box sx={diyCircle}>DIY</Box>
+            {/* SLOTS */}
             <a onClick={() => handleOpen("tops")}> <ItemSlot name="Top" itemType="top" item={props.outfit} /></a>
             <a onClick={() => handleOpen("bottoms")}><ItemSlot name="Bottom/Dress" itemType="bottom" item={props.outfit} /></a>
             <a onClick={() => handleOpen("shoes")}><ItemSlot name="Shoes" itemType="shoes" item={props.outfit} /></a>
-            <Box sx={chooseButton}>
+            {/* CHOOSE THIS LOOK */}
+            <Box sx={chooseButton} onClick={() => selectOutfit()}>
                 <LocalOfferIcon sx={{ mr: 0.5 }} />
                 <Typography variant="caption" sx={{ fontSize: '12px' }}>Choose this look</Typography>
             </Box>
@@ -89,7 +93,6 @@ function ItemSlot(props) {
             <Typography sx={textStyle}>{props.name}</Typography>
             <Paper sx={slotStyle}>
                 {(props.item && props.item[props.itemType]) ? data && <img src={itemLink(props.item)} style={slotImage} /> : <AddIcon style={iconStyle}></AddIcon>}
-                {/* <AddIcon style={iconStyle}></AddIcon> */}
             </Paper>
         </Box>
     )
@@ -126,6 +129,7 @@ function Item(props) {
         //identifier for item outfitNumber + itemType
         // console.log(outfitNumber + itemType)
 
+        //console.log(props.outfit);
         //set outfit item for each type
         switch (itemType) {
             case 'top':
@@ -135,7 +139,7 @@ function Item(props) {
                         "outfit_number": outfitNumber
                     }
                 });
-                console.log(props.outfit);
+                ReactSession.set("top", outfitNumber);
                 break;
             case 'bottom':
                 props.setOutfit({
@@ -144,6 +148,7 @@ function Item(props) {
                         "outfit_number": outfitNumber
                     }
                 });
+                ReactSession.set("bottom", outfitNumber);
                 break;
             case 'shoes':
                 props.setOutfit({
@@ -152,6 +157,7 @@ function Item(props) {
                         "outfit_number": outfitNumber
                     }
                 });
+                ReactSession.set("shoes", outfitNumber);
                 break;
         }
         //log to database 
@@ -309,7 +315,7 @@ const chooseButton = {
     justifyContent: 'center',
     '&:hover': {
         cursor: 'pointer',
-        transitionDuration: '200ms',
         transform: 'scale(1.05)'
     },
+    transition: 'all 200ms ease'
 }

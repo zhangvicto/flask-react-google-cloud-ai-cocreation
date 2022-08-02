@@ -39,18 +39,16 @@ const textStyle = {
     justifyContent: 'center',
     '&:hover': {
         cursor: 'pointer',
-        transitionDuration: '200ms',
         transform: 'scale(1.05)'
     },
+    transition: 'all 200ms ease',
 }
-
 
 const containerStyle = {
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10
+    justifyContent: 'center'
 }
 
 const checkMark = {
@@ -65,9 +63,7 @@ const clothItem = {
 function DisplayItem(props) {
 
     const [data, setData] = React.useState();
-
-    const [outfit, useOutfit] = React.useState(props.outfitNumber);
-
+    
     React.useEffect(() => {
 
         fetch('http://localhost:8080/api/gallery', {
@@ -90,12 +86,19 @@ function DisplayItem(props) {
     }, []);
 
 
-    function selectOutfit(outfitNumber) {
-        console.log(outfitNumber);
+    function selectOutfit() {
+        //console.log(outfit);
+        ReactSession.set('top', props.outfitNumber);
+        ReactSession.set('bottom', props.outfitNumber);
+        ReactSession.set('shoes', props.outfitNumber);
+
+        props.setToMonogram(true);
+        
+        //console.log(ReactSession.get("shoes",outfit));
         //useOutfit(outfitNumber);
-        console.log(outfit);
+        
         //find corresponding individual items and log them in the selectitem function
-        //log the selection to the cloud
+        //!!!!log the selection to the cloud!!!
     }
 
     return (
@@ -116,7 +119,8 @@ function DisplayItem(props) {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={textStyle} onClick={ () => selectOutfit(props.outfitNumber)}>
+            {/* CHOOSE THIS LOOK */}
+            <Box sx={textStyle} onClick={ () => selectOutfit()}>
                 <LocalOfferIcon sx={{ mr: 0.5 }} />
                 <Typography variant="caption" sx={{ fontSize: '12px' }}>Choose this look</Typography>
             </Box>
@@ -135,23 +139,18 @@ function OutfitDisplay(props) {
 
     return (
         <Box sx={containerStyle}>
-            <DisplayItem outfitNumber="1" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="2" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="3" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="4" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="5" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="6" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="7" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="8" setOutfit={props.setOutfit} outfit={props.outfit}/>
-            <DisplayItem outfitNumber="9" setOutfit={props.setOutfit} outfit={props.outfit}/>
+            <DisplayItem outfitNumber="1" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="2" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="3" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="4" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="5" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="6" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="7" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="8" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
+            <DisplayItem outfitNumber="9" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>
         </Box>
     )
 }
-
-function submitOutfit(selected) {
-    //upload data for outfit selected 
-}
-
 
 export default OutfitDisplay;
 

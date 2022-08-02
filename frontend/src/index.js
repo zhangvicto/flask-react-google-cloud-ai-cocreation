@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Study from './pages/study'
+import Monogram from './pages/monogram'
 import {
   BrowserRouter,
   Routes,
@@ -18,6 +19,7 @@ root.render(
       <Routes>
         <Route path="/" element={<LinkWithNavigate />} />
         <Route path="/study" element={<Study />} />
+        <Route path="/monogram" element={<Monogram />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
