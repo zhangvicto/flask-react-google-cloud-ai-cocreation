@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { ReactSession } from 'react-client-session';
 
 function updateSelection(props, outfitNumber, itemType) {
+    console.log(outfitNumber + itemType)
     switch (itemType) {
         case 'top':
             props.setOutfit({
@@ -33,7 +34,9 @@ function updateSelection(props, outfitNumber, itemType) {
                 }
             });
             ReactSession.set('shoes', outfitNumber);
+            //console.log(ReactSession.get('shoes'))
             break;
+
     }
     //log to database of selection
     //reverse find setID and index using outfitNumber of itemType
@@ -62,23 +65,12 @@ function cancelSelection(props, outfitNumber, itemType) {
             });
             break;
     }
-
     //log deselect item
 }
 
 export default function CheckMark(props) {
 
     const [check, setCheck] = useState(false);
-    // function selectItem() {
-    //     //save items selected
-    //     if (check) {
-    //         //add to slot
-    //         alert('added')
-    //     } else if (!check) {
-    //         //remove from slot
-    //         alert('removed')
-    //     }
-    // }
 
     const handleClick = () => {
         if (!check) {
@@ -92,7 +84,6 @@ export default function CheckMark(props) {
             setCheck(false);
         }
     }
-
 
     return (
         <Checkbox sx={{

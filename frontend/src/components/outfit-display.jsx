@@ -89,6 +89,7 @@ function DisplayItem(props) {
     function selectOutfit() {
         //console.log(outfit);
         ReactSession.set('top', props.outfitNumber);
+        //ReactSession.set('top', processData(data, props.outfitNumber, "top").setID)
         ReactSession.set('bottom', props.outfitNumber);
         ReactSession.set('shoes', props.outfitNumber);
 
@@ -106,15 +107,15 @@ function DisplayItem(props) {
             <Box sx={backgroundStyle}>
                 <Box sx={slotStyle}>
                     <Box sx={clothItem}>
-                        <img src={data && processData(data, props.outfitNumber, "top")} style={{ height: 35 }} />
+                        <img src={data && processData(data, props.outfitNumber, "top").link} style={{ height: 35 }} />
                         <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="top" />
                     </Box>
                     <Box sx={clothItem}>
-                        <img src={data && processData(data, props.outfitNumber, "bottom")} style={{ height: 35 }} />
+                        <img src={data && processData(data, props.outfitNumber, "bottom").link} style={{ height: 35 }} />
                         <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="bottom" />
                     </Box>
                     <Box sx={clothItem}>
-                        <img src={data && processData(data, props.outfitNumber, "shoes")} style={{ height: 35 }} />
+                        <img src={data && processData(data, props.outfitNumber, "shoes").link} style={{ height: 35 }} />
                         <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="shoes" />
                     </Box>
                 </Box>
@@ -131,8 +132,11 @@ function DisplayItem(props) {
 function processData(jsonData, outfitID, type) {
     let outfit = "outfit" + outfitID.toString()
     let link = jsonData[outfit][type]['link'];
+    let setID = jsonData[outfit][type]['set_id'];
+    let index = jsonData[outfit][type]['index'];
 
-    return link;
+    let output = {link: link, setID: setID, index: index}
+    return output;
 }
 
 function OutfitDisplay(props) {

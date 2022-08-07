@@ -52,14 +52,14 @@ export default function Study() {
     const [toMonogram, setToMonogram] = React.useState(false);
 
     //navigate to Monogram when we set the state using the button
-    if (toMonogram == true) {
+    if (toMonogram === true) {
         return <Navigate to="/monogram" />;
     }
 
     return (
         <React.Fragment>
             <CssBaseline />
-            {console.log(location.state) /* Username is passed from previous page */}
+            {/* console.log(location.state) /* Username is passed from previous page */}
             {/* {"Username is = " + username} */}
             <Timer />
             {/* may not be needed <TimeOut /> */}

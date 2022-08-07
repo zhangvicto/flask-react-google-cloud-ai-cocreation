@@ -77,13 +77,13 @@ function ItemSlot(props) {
 
         switch (props.name) {
             case "Top":
-                link = item.top ? processData(data, item.top.outfit_number, "top") : null
+                link = item.top ? processData(data, item.top.outfit_number, "top").link : null
                 return link;
             case "Bottom/Dress":
-                link = item.bottom ? processData(data, item.bottom.outfit_number, "bottom") : null
+                link = item.bottom ? processData(data, item.bottom.outfit_number, "bottom").link : null
                 return link;
             case "Shoes":
-                link = item.shoes ? processData(data, item.shoes.outfit_number, "shoes") : null
+                link = item.shoes ? processData(data, item.shoes.outfit_number, "shoes").link : null
                 return link;
         }
     }
@@ -161,14 +161,18 @@ function Item(props) {
                 break;
         }
         //log to database 
-        //reverse find setID and index using outfitNumber of itemType
-        //uploadSelection(setID, index) add these parameters to the function
+        //let itemObject = processData(data, outfitNumber, itemType)
+        //uploadSelection(itemObject.setID, itemObject.index);
+    }
+
+    function uploadSelection(setID, index) {
+        
     }
 
     return (
         <div>
             <a onClick={() => selectItem(props.outfitNumber, props.itemType)}>
-                <img src={data && processData(data, props.outfitNumber, props.itemType)} style={{ height: 50 }} />
+                <img src={data && processData(data, props.outfitNumber, props.itemType).link} style={{ height: 50 }} />
             </a>
         </div>
     )
@@ -241,7 +245,11 @@ export function Inventory(props) {
 function processData(jsonData, outfitID, type) {
     let outfit = "outfit" + outfitID.toString()
     let link = jsonData[outfit][type]['link'];
-    return link;
+    let setID = jsonData[outfit][type]['set_id'];
+    let index = jsonData[outfit][type]['index'];
+
+    let output = {link: link, setID: setID, index: index}
+    return output;
 }
 
 
