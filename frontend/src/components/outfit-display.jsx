@@ -141,6 +141,8 @@ function processData(jsonData, outfitID, type) {
 
 function OutfitDisplay(props) {
 
+    const [checked, useChecked] = React.useState();
+
     return (
         <Box sx={containerStyle}>
             <DisplayItem outfitNumber="1" setOutfit={props.setOutfit} outfit={props.outfit} setToMonogram={props.setToMonogram}/>

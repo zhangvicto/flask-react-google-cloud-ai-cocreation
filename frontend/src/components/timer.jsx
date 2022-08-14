@@ -21,7 +21,7 @@ export default function Timer() {
     return (
         <Button sx={boxStyle}>
             <Countdown
-                date={Date.now() + 1800000}
+                date={Date.now() + 900000}
                 precision={3}
                 renderer={props => <Box sx={innerBox}><AlarmIcon sx={{mr: 1}} /> {props.minutes}:{props.seconds}</Box>} />
         </Button>
