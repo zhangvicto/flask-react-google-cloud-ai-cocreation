@@ -33,7 +33,7 @@ def test():
 @app.route('/gallery', methods=['GET'])
 def gallery(): 
     try: 
-        return serve_json("ai_generated_set.json")
+        return serve_json('ai_generated_set.json')
     except: 
         return jsonify({'error':'error'})
 

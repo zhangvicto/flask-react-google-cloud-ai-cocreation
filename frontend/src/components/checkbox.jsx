@@ -4,36 +4,35 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useState } from 'react'
 import { ReactSession } from 'react-client-session';
 
-function updateSelection(props, outfitNumber, itemType) {
-    console.log(outfitNumber + itemType)
+function updateSelection(props, itemID, itemType) {
     switch (itemType) {
         case 'top':
             props.setOutfit({
                 ...props.outfit,
                 "top": {
-                    "outfit_number": outfitNumber
+                    "item_id": itemID
                 }
             });
-            ReactSession.set('top', outfitNumber);
+            ReactSession.set('top', itemID);
             console.log(props.outfit);
             break;
         case 'bottom':
             props.setOutfit({
                 ...props.outfit,
                 "bottom": {
-                    "outfit_number": outfitNumber
+                    "item_id": itemID
                 }
             });
-            ReactSession.set('bottom', outfitNumber);
+            ReactSession.set('bottom', itemID);
             break;
         case 'shoes':
             props.setOutfit({
                 ...props.outfit,
                 "shoes": {
-                    "outfit_number": outfitNumber
+                    "item_id": itemID
                 }
             });
-            ReactSession.set('shoes', outfitNumber);
+            ReactSession.set('shoes', itemID);
             //console.log(ReactSession.get('shoes'))
             break;
 
@@ -43,7 +42,7 @@ function updateSelection(props, outfitNumber, itemType) {
     //uploadSelection(setID, index) add these parameters to the function
 }
 
-function cancelSelection(props, outfitNumber, itemType) {
+function cancelSelection(props, itemID, itemType) {
     switch (itemType) {
         case 'top':
             props.setOutfit({
@@ -75,12 +74,12 @@ export default function CheckMark(props) {
     const handleClick = () => {
         if (!check) {
             console.log(check)
-            updateSelection(props, props.outfitNumber, props.itemType)
+            updateSelection(props, props.itemID, props.itemType)
             setCheck(true);
 
         } else if (check) {
             console.log(check);
-            cancelSelection(props, props.outfitNumber, props.itemType)
+            cancelSelection(props, props.itemID, props.itemType)
             setCheck(false);
         }
     }

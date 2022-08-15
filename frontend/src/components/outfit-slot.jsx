@@ -77,13 +77,13 @@ function ItemSlot(props) {
 
         switch (props.name) {
             case "Top":
-                link = item.top ? processData(data, item.top.outfit_number, "top").link : null
+                link = item.top ? processData("tops", item.top.item_id).link : null
                 return link;
             case "Bottom/Dress":
-                link = item.bottom ? processData(data, item.bottom.outfit_number, "bottom").link : null
+                link = item.bottom ? processData("bottoms", item.bottom.item_id).link : null
                 return link;
             case "Shoes":
-                link = item.shoes ? processData(data, item.shoes.outfit_number, "shoes").link : null
+                link = item.shoes ? processData("shoes", item.shoes.item_id).link : null
                 return link;
         }
     }
@@ -125,7 +125,7 @@ function Item(props) {
     }, []);
 
     //select item
-    function selectItem(outfitNumber, itemType) {
+    function selectItem(itemType, itemID) {
         //identifier for item outfitNumber + itemType
         // console.log(outfitNumber + itemType)
 
@@ -136,28 +136,28 @@ function Item(props) {
                 props.setOutfit({
                     ...props.outfit,
                     "top": {
-                        "outfit_number": outfitNumber
+                        "item_id": itemID
                     }
                 });
-                ReactSession.set("top", outfitNumber);
+                ReactSession.set("top", itemID);
                 break;
             case 'bottom':
                 props.setOutfit({
                     ...props.outfit,
                     "bottom": {
-                        "outfit_number": outfitNumber
+                        "item_id": itemID
                     }
                 });
-                ReactSession.set("bottom", outfitNumber);
+                ReactSession.set("bottom", itemID);
                 break;
             case 'shoes':
                 props.setOutfit({
                     ...props.outfit,
                     "shoes": {
-                        "outfit_number": outfitNumber
+                        "item_id": itemID
                     }
                 });
-                ReactSession.set("shoes", outfitNumber);
+                ReactSession.set("shoes", itemID);
                 break;
         }
         //log to database 
@@ -171,8 +171,8 @@ function Item(props) {
 
     return (
         <div>
-            <a onClick={() => selectItem(props.outfitNumber, props.itemType)}>
-                <img src={data && processData(data, props.outfitNumber, props.itemType).link} style={{ height: 50 }} />
+            <a onClick={() => selectItem(props.itemID, props.itemType)}>
+                <img src={data && processData(data[props.itemNumber].item_type, data[props.itemNumber].item_id).link} style={{ height: 50 }} />
             </a>
         </div>
     )
@@ -184,14 +184,56 @@ export function Inventory(props) {
     //     setOpen(true);
     // };
 
+    const [data, setData] = React.useState();
+
+    React.useEffect(() => {
+
+        fetch('http://localhost:8080/api/inventory', {
+            method: 'GET',
+            mode: 'cors'
+        }
+        ).then(response => {
+            if (response.status === 200) {
+                (response.json()).then((jsonData) => {
+                    setData(jsonData);
+                })
+            } else {
+                (response.json()).then((jsonData) => {
+                    return null;
+                })
+            }
+        }).catch((error) => {
+            console.log("Error", error);
+        })
+    }, []);
+
     //Renders the list of inventory items
-    let tops = [];
-    let bottoms = [];
-    let shoes = [];
-    for (let i = 1; i < 10; i++) {
-        tops.push(<Item outfitNumber={i} itemType="top" key={i} setOutfit={props.setOutfit} outfit={props.outfit} />);
-        bottoms.push(<Item outfitNumber={i} itemType="bottom" key={i} setOutfit={props.setOutfit} outfit={props.outfit} />);
-        shoes.push(<Item outfitNumber={i} itemType="shoes" key={i} setOutfit={props.setOutfit} outfit={props.outfit} />);
+
+    // for (let i = 1; i < data.length; i++) {
+    //     tops.push(<Item itemType="tops" itemNumber ={counter} key={i} setOutfit={props.setOutfit} outfit={props.outfit} />);
+    //     bottoms.push(<Item itemType="bottoms" itemNumber ={counter+1} key={i} setOutfit={props.setOutfit} outfit={props.outfit} />);
+    //     shoes.push(<Item itemType="shoes" itemNumber ={counter+2} key={i} setOutfit={props.setOutfit} outfit={props.outfit} />);
+    //     counter += 3;
+    // }
+
+    function generateIDs(type) {
+        let IDArray = []
+        for (let i = 1; i <= Object.keys(data).length; i++) {
+            if (data[i].item_type === type) {
+                IDArray.push(data[i].item_id);
+            }
+        }
+        return IDArray;
+    }
+
+    function renderItems(IDArray, type) {
+        let itemArray = [];
+        let counter = 1
+        for (let i = 1; i <= IDArray.length; i++) {
+            itemArray.push(<Item itemType={type} itemNumber ={counter} key={i} setOutfit={props.setOutfit} outfit={props.outfit} />)
+            counter += 3;
+        }
+        return itemArray;
     }
 
     function TopsInventory(props) {
@@ -202,7 +244,7 @@ export function Inventory(props) {
             <Box>
                 <Button onClick={() => handleClose()}>x</Button>
                 <Typography> Tops </Typography>
-                {tops}
+                {data && renderItems(generateIDs("tops"), "tops")}
             </Box>
         )
     }
@@ -215,7 +257,7 @@ export function Inventory(props) {
             <Box>
                 <Button onClick={() => handleClose()}>x</Button>
                 <Typography> Bottoms </Typography>
-                {bottoms}
+                {data && renderItems(generateIDs("bottoms"), "bottoms")}
             </Box>
         )
     }
@@ -228,7 +270,7 @@ export function Inventory(props) {
             <Box>
                 <Button onClick={() => handleClose()}>x</Button>
                 <Typography> Shoes </Typography>
-                {shoes}
+                {data && renderItems(generateIDs("shoes"), "shoes")}
             </Box>
         )
     }
@@ -242,13 +284,11 @@ export function Inventory(props) {
     )
 }
 
-function processData(jsonData, outfitID, type) {
-    let outfit = "outfit" + outfitID.toString()
-    let link = jsonData[outfit][type]['link'];
-    let setID = jsonData[outfit][type]['set_id'];
-    let index = jsonData[outfit][type]['index'];
-
-    let output = {link: link, setID: setID, index: index}
+function processData(type, itemID) {
+    let linkBase = "https://storage.googleapis.com/ai-co-creation-images/" + type + "/";
+    let link = linkBase + itemID + ".jpg";
+    
+    let output = {link: link, item_id: itemID }
     return output;
 }
 

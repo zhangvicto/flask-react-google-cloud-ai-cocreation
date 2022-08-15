@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 from pathlib import Path
+from unicodedata import category
 from sort_image import copyImageFiles
 
 def AIImageSort(): 
@@ -10,6 +11,7 @@ def AIImageSort():
 
     counter = 1
     itemCounter = 1
+    categoryCounter = 1
 
     for root, dirs, files in os.walk("./filtered_outfits_combined", topdown=False): 
         for name in files: 
@@ -24,25 +26,25 @@ def AIImageSort():
             #store into dict
             aiSet[counter] = {
                 "fit_distance": outfitData[0],
-                "top": outfitItems[0], 
-                "bottom": outfitItems[1],
+                "tops": outfitItems[0], 
+                "bottoms": outfitItems[1],
                 "shoes": outfitItems[2],
             }
 
-            categoryCounter = 0
             for i in outfitItems: 
                 #category Type
                 itemType = ""
-                if categoryCounter == 0: 
+                if categoryCounter == 1: 
                     itemType = "tops"
-                elif categoryCounter == 1: 
-                    itemType = "bottoms"
                 elif categoryCounter == 2: 
+                    itemType = "bottoms" 
+                elif categoryCounter == 3: 
                     itemType = "shoes"
+                print("Inventory" + str(itemCounter))
+                print("Total" + str(categoryCounter))
 
                 if any(x for x in inventory if inventory[x]['item_id'] == i) == False: #check if it exists in our inventory already
                     #print(any(x for x in inventory if inventory[x]['item_id'] == i))
-                    
                     #add new item
                     inventory[itemCounter] = {
                         "item_id": i,
@@ -52,10 +54,14 @@ def AIImageSort():
                     #increment number of inventory items
                     itemCounter = itemCounter + 1
 
+                    #categoryCounter = categoryCounter + 1
+
                     #copy item image
-                    copyImageFiles(i)
+                    #copyImageFiles(i)
 
                 categoryCounter = categoryCounter + 1
+                if categoryCounter == 4: 
+                    categoryCounter = 1
 
             #increment number of outfits
             counter = counter + 1

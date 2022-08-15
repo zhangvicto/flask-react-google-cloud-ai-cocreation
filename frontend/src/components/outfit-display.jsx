@@ -107,16 +107,16 @@ function DisplayItem(props) {
             <Box sx={backgroundStyle}>
                 <Box sx={slotStyle}>
                     <Box sx={clothItem}>
-                        <img src={data && processData(data, props.outfitNumber, "top").link} style={{ height: 35 }} />
-                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="top" />
+                        <img src={data && processData(data, props.outfitNumber, "tops").link} style={{ height: 35 }} />
+                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemID = {data && processData(data, props.outfitNumber, "tops").item_id} itemType="top" />
                     </Box>
                     <Box sx={clothItem}>
-                        <img src={data && processData(data, props.outfitNumber, "bottom").link} style={{ height: 35 }} />
-                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="bottom" />
+                        <img src={data && processData(data, props.outfitNumber, "bottoms").link} style={{ height: 35 }} />
+                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemID = {data && processData(data, props.outfitNumber, "bottoms").item_id} itemType="bottom" />
                     </Box>
                     <Box sx={clothItem}>
                         <img src={data && processData(data, props.outfitNumber, "shoes").link} style={{ height: 35 }} />
-                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemType="shoes" />
+                        <CheckMark sx={checkMark} outfitNumber={props.outfitNumber} setOutfit={props.setOutfit} outfit={props.outfit} itemID = {data && processData(data, props.outfitNumber, "shoes").item_id} itemType="shoes" />
                     </Box>
                 </Box>
             </Box>
@@ -129,13 +129,12 @@ function DisplayItem(props) {
     )
 }
 
-function processData(jsonData, outfitID, type) {
-    let outfit = "outfit" + outfitID.toString()
-    let link = jsonData[outfit][type]['link'];
-    let setID = jsonData[outfit][type]['set_id'];
-    let index = jsonData[outfit][type]['index'];
+function processData(jsonData, outfit, type) {
+    let linkBase = "https://storage.googleapis.com/ai-co-creation-images/" + type + "/";
+    let link = linkBase + jsonData[outfit.toString()][type] + ".jpg";
+    let itemID = jsonData[outfit.toString()][type];
 
-    let output = {link: link, setID: setID, index: index}
+    let output = {link: link, item_id: itemID};
     return output;
 }
 
